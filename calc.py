@@ -3,9 +3,12 @@ from tkinter import *
 root = Tk()
 root.title("Simple Calculator")
 
-
 e = Entry(root, width=35, borderwidth=5)
 e.grid(row=0, column=0, columnspan=3, padx=10, pady=10)
+
+leftnum = 0
+rightnum = 0
+operand = ''
 
 def button_click(number):
     current = e.get()
@@ -15,34 +18,41 @@ def button_click(number):
 def clear_screen():
     e.delete(0, 'end')
 
-def button_add():
-    first_number = e.get()
-    global f_num
-    f_num = int(first_number)
+def oper_click(oper):
+    get_leftnum()
     e.delete(0, END)
+    set_oper(oper)
 
-def get_operand(oper):
-    global f_num 
-    f_num = int(e.get())
-    e.delete(0, END)
+def set_oper(oper):
     global operand
     operand = oper
 
+def get_leftnum():
+    global leftnum
+    leftnum = float(e.get())
 
-def run_calc(num1, num2):
+def get_rightnum():
+    global rightnum
+    rightnum = float(e.get())
+
+def run_calc():
     if(operand == "+"):
-        return num1 + num2
+        return float(leftnum) + float(rightnum)
     if(operand == "-"):
-        return num1 - num2
+        return float(leftnum) - float(rightnum)
     if(operand == "*"):
-        return num1 * num2
+        return float(leftnum) * float(rightnum)
     if(operand == "/"):
-        return num1 / num2
+        return float(leftnum) / float(rightnum)
+
+def print_nums():
+    print(leftnum)
+    print(rightnum)
 
 def button_equal():
-    second_number = e.get()
+    get_rightnum()
     e.delete(0, END)
-    e.insert(0, int(run_calc(f_num, int(second_number))))
+    e.insert(0, str(run_calc()))
 
  # add numbers
 
@@ -59,10 +69,10 @@ btn0 = Button(root, text="0", padx=40, pady=20, command=lambda: button_click(0))
 
  # add operands
 
-btnAdd = Button(root, text="+", padx=39, pady=10, command=lambda: get_operand("+"))
-btnMult = Button(root, text="*", padx=39, pady=10, command=lambda: get_operand("*"))
-btnDiv = Button(root, text="/", padx=39, pady=10, command=lambda: get_operand("/")) 
-btnMin = Button(root, text="-", padx=39, pady=10, command=lambda: get_operand("-"))
+btnAdd = Button(root, text="+", padx=39, pady=10, command=lambda: oper_click("+"))
+btnMult = Button(root, text="*", padx=39, pady=10, command=lambda: oper_click("*"))
+btnDiv = Button(root, text="/", padx=39, pady=10, command=lambda: oper_click("/")) 
+btnMin = Button(root, text="-", padx=39, pady=10, command=lambda: oper_click("-"))
 
  # add functional
 
